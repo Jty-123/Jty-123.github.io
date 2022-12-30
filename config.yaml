@@ -1,5 +1,0 @@
-baseURL: https://www.jty-123.github.io  #绑定的域名
-languageCode: zh-cn # en-us
-title: Jty's Blog.
-theme: beautifulhugo # 主题名字，和themes文件夹下的一致
-publishDir: "docs"
