@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>shell与terminal</title>
+    <link href="/2023/03/06/shell%E5%92%8Cterminal/"/>
+    <url>/2023/03/06/shell%E5%92%8Cterminal/</url>
+    
+    <content type="html"><![CDATA[<p>l</p><p>来自：<a href="https://www.bilibili.com/video/BV16A411675V">https://www.bilibili.com/video/BV16A411675V</a></p><p>大概总结了一些，但还有一些没有理解完全</p><h3 id="Terminal"><a href="#Terminal" class="headerlink" title="Terminal"></a>Terminal</h3><p>传统计算机非常庞大，被安置在单独房间内，操作计算机的人坐在另外的房间，通过设备与计算机进行交互，这种设备就叫做终端设备。</p><p>随着历史的发展，显示也由最初的打印在纸上变为了电子显像管，由于当时显示器的宽度最多为80列，因此很多语言规范规定单行代码最长为80字符。</p><p>现代计算机已经可以做到人手一台，终端设备也早已被取代，这时需要一个程序来模拟传统终端的行为，与传统不兼容图形接口的命令行程序交互。这就是终端模拟器。</p><p>Terminal运行在桌面环境下</p><p>经典桌面环境：GNOME，KDE，Xfcee，deepin</p><p>经典终端模拟器：GNOME Terminal，Alacritty，Dwm，st</p><h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><p>shell即为运行在Terminal之中的与操作系统交互的程序。</p><p>sh，bash，cmd，powershell都属于shell的实现</p><p>Sh：Bourne shell 最经典的Unix shell</p><p>Bash：Bourne-Again shell 目前绝大多数Linux 发行版默认的shell</p><h3 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h3><p>早期电脑有大量开关和指示器的面板，对电脑进行非常底层的操纵，这个面板就叫做console</p><h3 id="主题原理"><a href="#主题原理" class="headerlink" title="主题原理"></a>主题原理</h3><p>对虚拟终端序列进行配置</p><p>命令提示符（prompt） &gt;     </p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术杂谈</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>沟通要点</title>
     <link href="/2023/02/19/%E6%B2%9F%E9%80%9A%E8%A6%81%E7%82%B9/"/>
     <url>/2023/02/19/%E6%B2%9F%E9%80%9A%E8%A6%81%E7%82%B9/</url>
