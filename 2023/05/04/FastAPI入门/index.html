@@ -16,21 +16,21 @@
   <meta name="author" content="Jty">
   <meta name="keywords" content="">
   
-    <meta name="description" content="随着2022年1月买的服务器到期，我把这一年所写的东西全部迁了出来，放到github上了。也趁此机会写个年终总结吧。 提笔写的时候在看Asoul的直播，写完估计已经到了2023年了。2022年发生的事情太多了，确实很值得去写个总结去纪念一下。 保研保研可能是贯穿2022年的主线吧，从正常来说，从2022年的1月份就应该开始了，但可惜我1月份的时候什么都不懂。3月份开学进学校，可能到5月份才搞懂什么">
+    <meta name="description" content="简介 (抄的官网)FastAPI是一个现代的、快速（高性能）的网络框架，用于在标准Python类型提示的基础上用Python 3.7+构建API。 特点：快速：可与 NodeJS 和 Go 比肩的极高性能（归功于 Starlette 和 Pydantic），是最快的 Python web 框架之一 高效编码提高功能开发速度约 200％ 至 300％ 更少的bug减少约 40％ 的人为（开发者）导致">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2022review">
-<meta property="og:url" content="http://example.com/2022/12/31/2022review/index.html">
+<meta property="og:title" content="FastApi入门">
+<meta property="og:url" content="http://example.com/2023/05/04/FastAPI%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="Jty’s Blog">
-<meta property="og:description" content="随着2022年1月买的服务器到期，我把这一年所写的东西全部迁了出来，放到github上了。也趁此机会写个年终总结吧。 提笔写的时候在看Asoul的直播，写完估计已经到了2023年了。2022年发生的事情太多了，确实很值得去写个总结去纪念一下。 保研保研可能是贯穿2022年的主线吧，从正常来说，从2022年的1月份就应该开始了，但可惜我1月份的时候什么都不懂。3月份开学进学校，可能到5月份才搞懂什么">
+<meta property="og:description" content="简介 (抄的官网)FastAPI是一个现代的、快速（高性能）的网络框架，用于在标准Python类型提示的基础上用Python 3.7+构建API。 特点：快速：可与 NodeJS 和 Go 比肩的极高性能（归功于 Starlette 和 Pydantic），是最快的 Python web 框架之一 高效编码提高功能开发速度约 200％ 至 300％ 更少的bug减少约 40％ 的人为（开发者）导致">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-12-31T10:20:09.396Z">
-<meta property="article:modified_time" content="2023-01-01T03:21:12.922Z">
+<meta property="article:published_time" content="2023-05-04T04:55:12.643Z">
+<meta property="article:modified_time" content="2023-05-04T07:27:18.335Z">
 <meta property="article:author" content="Jty">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>2022review - Jty’s Blog</title>
+  <title>FastApi入门 - Jty’s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +196,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="2022review"></span>
+            <span id="subtitle" data-typed-text="FastApi入门"></span>
           
         </div>
 
@@ -207,8 +207,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-31 18:20" pubdate>
-          2022年12月31日 晚上
+        <time datetime="2023-05-04 12:55" pubdate>
+          2023年5月4日 下午
         </time>
       </span>
     
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          354 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          15 分钟
+          3 分钟
         
       </span>
     
@@ -268,28 +268,20 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">2022review</h1>
+            <h1 style="display: none">FastApi入门</h1>
             
             
               <div class="markdown-body">
                 
-                <p>随着2022年1月买的服务器到期，我把这一年所写的东西全部迁了出来，放到github上了。也趁此机会写个年终总结吧。</p>
-<p>提笔写的时候在看Asoul的直播，写完估计已经到了2023年了。2022年发生的事情太多了，确实很值得去写个总结去纪念一下。</p>
-<h3 id="保研"><a href="#保研" class="headerlink" title="保研"></a>保研</h3><p>保研可能是贯穿2022年的主线吧，从正常来说，从2022年的1月份就应该开始了，但可惜我1月份的时候什么都不懂。3月份开学进学校，可能到5月份才搞懂什么是真正的保研，这样直到9月份走了很多很多的弯路，在路途中也emo了很久很久。对于保研很具体的感悟就可以看另一篇保研的博客吧。</p>
-<h3 id="实习"><a href="#实习" class="headerlink" title="实习"></a>实习</h3><p>在保研后，尝试去找了实习。在实习中也再次认识到了现在就业形势的严峻。因为是刚保研完，没有准备什么多久，就投了认为开始投了很多家，但是都没有回应。</p>
-<p>字节给了面试，但可惜，一面就挂了，面评也很不好，所以再投都直接简历挂了。</p>
-<p>然后就是面试了美团，靠的是室友直接进行的内推，主管人很好，也确实缺人，两轮面试就直接过了。但很不幸，刚接完了offer，第二天就立刻出现了疫情，不能进京。联想到后面的事情，其实也算是一种幸运吧。开始了线上的实习，主要写前端Vue。线上实习很舒服，不需要租房的费用，不需要通勤，不需要花钱去吃饭。北京疫情封锁，再北京实习的很多人都处于吃不上饭的状态，然后戏剧性的放开，北京基本所有的人都阳了。我因为线上的实习躲过了这两拨，虽然最后也还是阳了，但是很庆幸躲过了这几波。但是随着大部分人的阳康，过几天也要去线下办公了。组内的员工都是老员工，至少线上的时候体验非常不错，还是期待一波线下吧。</p>
-<h3 id="游戏"><a href="#游戏" class="headerlink" title="游戏"></a>游戏</h3><p>2022的上半年因为准备保研的关系，基本每天没有打游戏的时间。保研由于有了工资，陈趁着秋促和冬促入手了不少的游戏，也玩了很多。 战雷一直在玩，到了今年结束的时候把很难开的中系陆战开到了顶级房，用99A把KD打正。然后迷上了空战，中系的空战也开到了J7E，在打的过程中也在录屏收集素材，打算做个击杀集锦，看来只能过两天再说了。</p>
-<p>单机的游戏，今年玩的体验最深的有2款游戏，冰汽时代，赛博朋克2077。</p>
-<p>冰汽时代是在封城的时候玩的，也算很有感触吧，开始对于越界的争议，到后来评价的转变尤其是联想到疫情再有steam下面的评论，都很值得去思考。我们成功的躲过了风暴，我不知道这是否值得，但我庆幸我自己生存了下来。</p>
-<p>2077与刚出时的对比现在能算上是一个合格的大作了，虽然还是有很多的bug。但剧情人设背景非常优秀，以及作为一个RPG游戏的打击感，做的本土化配音也十分的优秀，很沉浸。2077也许能做的更好吧，这种优秀的世界观的设定，总让人有无限的遐想。</p>
-<h3 id="二次元"><a href="#二次元" class="headerlink" title="二次元"></a>二次元</h3><p>什么是二次元呢，V圈也算二次元吧（。</p>
-<p>2022的上半年有在推猫雷，后来出现了y&gt;b事件后，就渐渐脱粉了，虽然确实猫雷很可爱，声音也很好听，再后来猫雷毕业了，据说是转生了，后来也就没再继续关注了。</p>
-<p>当然同时也一直又在看A，一起经历了510事件，在这个过程中认识到了公众舆论被误导的后果。虽然我不是团推没有受到珈乐休眠的多少影响，但看到她们被攻击还是挺伤心的。好在后来2周年也成功的举办了，舆论的封口也回转了，我也一起与Asoul度过了2022。2022年的许多欢乐都是嘉然向晚她们带来的，很感谢她们，希望2023年能继续陪伴。</p>
-<p>除了皮套人外，也补了不少的动漫，一些经典的作品 例如巨人，鬼灭。也在闲暇的时候看完了，也很庆幸今年10月新番非常给力，死神让我找回了初中小学时的感觉。还有非常好看的电锯人，孤独摇滚。</p>
-<h3 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h3><p>在这一年里，我也干了其他很多事吧。和同学一起去健身，在保研的空隙去爬二期的山，去开无人机。去参加夜跑活动等等等等。也在空余的时间学了一些Pr剪了一些的视频。基本属于最简单的剪辑了，也发到了b站上面。这两天也打算剪几个高级点费时费力的混剪hhh，希望播放量能够高点。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>2022年经历的事情有很多，经历了保研和找实习的磨练，我感觉我的社交能力也渐渐有了些增长，渐渐地也不那么社恐了，自己的心理素质有了很大的提升。我感觉这就是很大的成长吧。发邮件联系老师，参加很多轮的面试。</p>
-<p>虽然因为社恐和口才差吃了很多亏，好在最后也有了一个不错的结果，最重要的是在这一年成长了许多。感谢2022年遇到的人和事让我有了这些的成长吧。希望2023年能一切顺利。</p>
+                <h2 id="简介-抄的官网"><a href="#简介-抄的官网" class="headerlink" title="简介 (抄的官网)"></a>简介 (抄的官网)</h2><p>FastAPI是一个现代的、快速（高性能）的网络框架，用于在标准Python类型提示的基础上用Python 3.7+构建API。</p>
+<h3 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h3><h4 id="快速："><a href="#快速：" class="headerlink" title="快速："></a>快速：</h4><p>可与 NodeJS 和 Go 比肩的极高性能（归功于 Starlette 和 Pydantic），是最快的 Python web 框架之一</p>
+<h4 id="高效编码"><a href="#高效编码" class="headerlink" title="高效编码"></a>高效编码</h4><p>提高功能开发速度约 200％ 至 300％</p>
+<h4 id="更少的bug"><a href="#更少的bug" class="headerlink" title="更少的bug"></a>更少的bug</h4><p>减少约 40％ 的人为（开发者）导致错误</p>
+<h4 id="使用方便"><a href="#使用方便" class="headerlink" title="使用方便"></a>使用方便</h4><p>极佳的编辑器支持。处处皆可自动补全，减少调试时间</p>
+<h4 id="简单"><a href="#简单" class="headerlink" title="简单"></a>简单</h4><p>设计的易于使用和学习，阅读文档的时间更短</p>
+<h4 id="简短"><a href="#简短" class="headerlink" title="简短"></a>简短</h4><p>使代码重复最小化。通过不同的参数声明实现丰富功能</p>
+<h4 id="鲁棒性"><a href="#鲁棒性" class="headerlink" title="鲁棒性"></a>鲁棒性</h4><p>prod级别的代码。还有自动生成的交互式文档。</p>
+<h4 id="基于标准"><a href="#基于标准" class="headerlink" title="基于标准"></a>基于标准</h4><p>基于（并与）API的开放标准完全兼容：<a target="_blank" rel="noopener" href="https://github.com/OAI/OpenAPI-Specification">OpenAPI</a> (previously known as Swagger) and <a target="_blank" rel="noopener" href="https://json-schema.org/">JSON Schema</a>.</p>
 
                 
               </div>
@@ -308,7 +300,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E9%9A%8F%E7%AC%94/" class="category-chain-item">随笔</a>
+  <a href="/categories/%E6%A1%86%E6%9E%B6/" class="category-chain-item">框架</a>
   
   
 
@@ -328,8 +320,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>2022review</div>
-      <div>http://example.com/2022/12/31/2022review/</div>
+      <div>FastApi入门</div>
+      <div>http://example.com/2023/05/04/FastAPI入门/</div>
     </div>
     <div class="license-meta">
       
@@ -341,7 +333,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月31日</div>
+          <div>2023年5月4日</div>
         </div>
       
       
@@ -373,9 +365,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/04/FastAPI%E5%85%A5%E9%97%A8/" title="FastApi入门">
+                      <a href="/2023/08/31/%E5%BC%80%E5%AD%A6%E5%89%8D%E9%9A%8F%E7%AC%94/" title="开学前随笔">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">FastApi入门</span>
+                        <span class="hidden-mobile">开学前随笔</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -383,8 +375,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/12/30/%E4%BF%9D%E7%A0%94%E9%9A%8F%E7%AC%94/" title="保研随笔">
-                        <span class="hidden-mobile">保研随笔</span>
+                      <a href="/2022/12/31/2022review/" title="2022review">
+                        <span class="hidden-mobile">2022review</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
