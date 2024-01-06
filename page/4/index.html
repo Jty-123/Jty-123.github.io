@@ -18,7 +18,7 @@
   
     <meta property="og:type" content="website">
 <meta property="og:title" content="Jty’s Blog">
-<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:url" content="http://jty-123.github.io/page/4/index.html">
 <meta property="og:site_name" content="Jty’s Blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Jty">
@@ -58,7 +58,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"jty-123.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -71,7 +71,7 @@
 
 
   
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
@@ -102,7 +102,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -114,7 +114,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -126,7 +126,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -138,7 +138,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -150,7 +150,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -222,17 +222,17 @@
     
     
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
+      <h2 class="index-header">
         
-        <a href="/2022/12/30/%E6%B1%82%E7%BB%84%E5%90%88%E6%95%B0%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95/" target="_self">
-          求组合数的多种方法
+        <a href="/2022/04/11/%E7%BA%BF%E6%AE%B5%E6%A0%91/" target="_self">
+          线段树
         </a>
-      </h1>
+      </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E6%B1%82%E7%BB%84%E5%90%88%E6%95%B0%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/11/%E7%BA%BF%E6%AE%B5%E6%A0%91/" target="_self">
         <div>
-          递推法C[a][b] &#x3D; C[a-1][b-1]+C[a-1][b];很好理解，从一堆苹果中拿出一个苹果，那么从这a个苹果中取出b个苹果可根据有无这个苹果分成两种情况，得到递推式。模板题：https://www.acwing.com/problem/content/887/代码： 12345678910111213const int mod = 1e9+7;int c[N][N];voi
+          线段树是算法竞赛中常用的用来维护区间信息的数据结构。线段树可以在O(logn)的时间复杂度内实现单点修改、区间修改、区间查询（区间求和，求区间最大值，求区间最小值）等操作。 线段树的基本结构与建树线段树将每个长度不为1的区间划分成左右两个区间递归求解，把整个线段划分为一个树形结构，通过合并左右两区间信息来求得该区间的信息。这种数据结构可以方便的进行大部分的区间操作。上图即为将[1,13]区间划分出
         </div>
       </a>
 
@@ -240,8 +240,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
+            <time datetime="2022-04-11 14:42" pubdate>
+              2022-04-11
             </time>
           </div>
         
@@ -276,17 +276,17 @@
     
     
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
+      <h2 class="index-header">
         
-        <a href="/2022/12/30/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" target="_self">
-          欧拉函数
+        <a href="/2022/04/05/%E6%A0%91%E5%BD%A2dp/" target="_self">
+          树形dp
         </a>
-      </h1>
+      </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/05/%E6%A0%91%E5%BD%A2dp/" target="_self">
         <div>
-          特别的，当n&#x3D;1时，欧拉函数值为1。当n为质数时，欧拉函数的值为n-1。欧拉函数直接求法：模板：https://www.acwing.com/problem/content/875/ 1234567891011121314151617181920212223#include&lt;bits/stdc++.h&gt;using namespace std;int n;int main(vo
+          树形 DP，即在树上进行的 DP。由于树固有的递归性质，树形 DP 一般都是递归进行的。经典例题：没有上司的舞会。https://www.acwing.com/activity/content/problem/content/1012/状态设定：dp[u][2]&#x2F;&#x2F;0表示不选该点，1表示选该节点的快乐指数。代码： 12345678910111213141516171819202
         </div>
       </a>
 
@@ -294,8 +294,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
+            <time datetime="2022-04-05 11:36" pubdate>
+              2022-04-05
             </time>
           </div>
         
@@ -330,285 +330,15 @@
     
     
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
+      <h2 class="index-header">
         
-        <a href="/2022/12/30/%E7%A6%BB%E6%95%A3%E5%8C%96+%E5%B7%AE%E5%88%86%E7%9A%84%E5%9D%91/" target="_self">
-          离散化+差分的坑
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E7%A6%BB%E6%95%A3%E5%8C%96+%E5%B7%AE%E5%88%86%E7%9A%84%E5%9D%91/" target="_self">
-        <div>
-          4月24日，周赛题T4。https://leetcode-cn.com/problems/number-of-flowers-in-full-bloom/根据题目，想到离散化+差分处理。tle代码： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/12/30/%E5%BF%AB%E9%80%9F%E5%B9%82/" target="_self">
-          快速幂
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E5%BF%AB%E9%80%9F%E5%B9%82/" target="_self">
-        <div>
-          快速幂快速幂的核心思想即为，将幂指数变成二进制的形式，来拆解乘积，减少运算的次数，既预处理又能防止溢出。模板题：https://www.acwing.com/problem/content/submission/code_detail/14148818/ 12345678910111213141516171819202122232425#include&lt;bits/stdc++.h&gt;us
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/12/30/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0/" target="_self">
-          卡特兰数
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0/" target="_self">
-        <div>
-          卡特兰数的几何意义简单来说，卡特兰数就是一个有规律的数列，在坐标图中可以表示为：从原点(0,0)出发，每次向x轴或者y轴正方向移动1个单位，直到到达(n,n)点，且在移动过程中不越过第一象限平分线的移动方案总数。模板题:https://www.acwing.com/activity/content/problem/content/959/代码： 12345678910111213141516171
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/12/30/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" target="_self">
-          记忆化搜索
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/" target="_self">
-        <div>
-          记忆化搜索理解：在暴力搜索的基础上，记录了搜索的状态，从别的状态搜索过来后不用再重复搜索，减少了时间复杂度。https://www.acwing.com/problem/content/903/ 1234567891011121314151617181920212223242526272829303132333435363738394041424344#include&lt;bits/stdc++
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/12/30/%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E8%A7%A3%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/" target="_self">
-          高斯消元解线性方程组
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E8%A7%A3%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/" target="_self">
-        <div>
-          基础知识求方程组的解即为线性代数中Ax&#x3D;b的解。通过高斯消元，将每一个要解的变量系数化为1。若主对角线上均为1，则正好有一组解，带回求解即可。若有一组方程化简完后为 0&#x3D;0形式，则有无数组解。若有一组方程为，0 &#x3D; b的形式，那么则无解。代码即为模拟消元的过程：模板题：https://www.acwing.com/problem/content/885/ 123456
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/12/30/%E5%88%86%E6%B2%BB/" target="_self">
+        <a href="/2022/04/05/%E5%88%86%E6%B2%BB/" target="_self">
           分治
         </a>
-      </h1>
+      </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E5%88%86%E6%B2%BB/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/05/%E5%88%86%E6%B2%BB/" target="_self">
         <div>
           把一个复杂的问题分成两个或更多的相同或相似的子问题，再把子问题分成更小的子问题……直到最后子问题可以简单的直接求解，原问题的解即子问题的解的合并。 例题：快速排序：https://www.acwing.com/problem/content/787/快速排序的思想就是基于分治。1.首先设定一个分界值，通过该分界值将数组分成左右两部分。2.将大于或等于分界值的数据集中到数组右边，小于分界值的数据集中
         </div>
@@ -618,8 +348,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
+            <time datetime="2022-04-05 10:00" pubdate>
+              2022-04-05
             </time>
           </div>
         
@@ -654,17 +384,17 @@
     
     
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
+      <h2 class="index-header">
         
-        <a href="/2022/12/30/%E4%BA%8C%E5%88%86%E6%A8%A1%E6%9D%BF/" target="_self">
-          二分模板
+        <a href="/2022/03/28/C++Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
+          C++Lambda表达式
         </a>
-      </h1>
+      </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E4%BA%8C%E5%88%86%E6%A8%A1%E6%9D%BF/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/28/C++Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_self">
         <div>
-          一般二分模板 123456789101112int find(int x)&#123;   int l=0;   int r =n-1;   while(l&lt;r)   &#123;	int mid = (l+r)&gt;&gt;1;	if(a[mid]&gt;=x)  r= mid;	else l =mid+1;   &#125;   return l;&#125; 注意：如果能找到等于x的
+          lambda函数的语法基本形式 1[capture](parameters)-&gt;return-type &#123;body&#125;  []叫做捕获说明符，表示一个lambda表达式的开始。接下来是参数列表，即这个匿名的lambda函数的参数。 parameters，普通参数列表 -&gt;return-type表示返回类型，如果没有返回类型，则可以省略这部分。这涉及到c++11的另一特
         </div>
       </a>
 
@@ -672,8 +402,62 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
+            <time datetime="2022-03-28 15:06" pubdate>
+              2022-03-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C/" class="category-chain-item">C++</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2022/03/27/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97%E5%8D%95%E8%B0%83%E6%A0%88/" target="_self">
+          单调队列单调栈
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/27/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97%E5%8D%95%E8%B0%83%E6%A0%88/" target="_self">
+        <div>
+          单调队列，用来维护给定大小区间的最值。并且队列中元素之间的关系具有单调性，而且，队首和队尾都可以进行出队操作，只有队尾可以进行入队操作。可以用来维护给定区间的最大（最小值）（滑动窗口） 单调栈，用来维护最近的大于&#x2F;小于关系，可以维护偏向全局的大小关系。 单调队列实现去尾操作用来维护队列的单调性，当有新元素需要入队时，从队尾向前依次移除影响单调性的元素。操作结束后，进行入队。 删头操作用来
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-27 11:11" pubdate>
+              2022-03-27
             </time>
           </div>
         
@@ -708,17 +492,17 @@
     
     
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
+      <h2 class="index-header">
         
-        <a href="/2022/12/30/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%86%E6%9E%90%E6%B3%95/" target="_self">
-          动态规划分析法
+        <a href="/2022/03/26/map%E5%92%8Cunordered_map/" target="_self">
+          map和unordered_map
         </a>
-      </h1>
+      </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%86%E6%9E%90%E6%B3%95/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/26/map%E5%92%8Cunordered_map/" target="_self">
         <div>
-          y总的动态规划分析法。总得来说，对于一个动态规划问题，可以分为两个方面进行分析，分别为状态表示和状态计算两部分。状态表示是对动态规划数组dp[i,j]进行分析，分为集合和属性，集合来分析我们的动态规划数组表示的是什么，属性即要从集合获得什么样属性的元素，如最大最小值。状态计算是根据问题进行具体分析状态dp[i,j]可以由什么状态转移而来从而获得状态转移方程。例题：数字三角形：https://www
+          map:map内部实现是红黑树，红黑树是非严格平衡二叉搜索树，而AVL是严格的平衡二叉搜索树，红黑树有自动排序的功能，因此map内部的元素都是有序的，操作时间复杂度为O（logn）。unordered_map:内部是哈希表，在没有冲突的情况下访问速度为O（1）。但在最坏的情况下可达到O（n）效率不稳定，而且不有序。例题：https://codeforces.com/problemset/probl
         </div>
       </a>
 
@@ -726,8 +510,62 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 17:35" pubdate>
-              2022-12-30
+            <time datetime="2022-03-26 15:19" pubdate>
+              2022-03-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C/" class="category-chain-item">C++</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2022/03/25/%E5%B9%B6%E6%9F%A5%E9%9B%86/" target="_self">
+          并查集
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/25/%E5%B9%B6%E6%9F%A5%E9%9B%86/" target="_self">
+        <div>
+          并查集是一种树型的数据结构，用于处理一些不相交集合（disjoint sets）的合并及查询问题。并查集通常包含两种操作，查找，合并。模板代码：朴素并查集+路径压缩优化: 1234567891011int find(int x)&#123;    if(p[x]!=x) p[x]= find(p[x]);    return p[x];&#125;//p[x]存储每个点的祖宗节点。//find(x
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 10:58" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -743,6 +581,168 @@
       <span class="category-chain">
         
   <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2022/03/20/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91mst/" target="_self">
+          最小生成树的算法
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/20/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91mst/" target="_self">
+        <div>
+          prim算法从已知的某个定点向外扩散，寻找最小的邻边，将顶点加入集合，如果顶点已经加入，则跳过（防止成环），直到所有顶点都加入到集合中，构成mst。适合稠密图 kruskal算法从整个图的最小的一条边开始贪心，在不成环的情况下，不断和并最后构成最小生成树。适合稀疏图。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-20 10:35" pubdate>
+              2022-03-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2022/03/12/%E7%BA%A6%E6%95%B0%E9%97%AE%E9%A2%98/" target="_self">
+          约数问题
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/12/%E7%BA%A6%E6%95%B0%E9%97%AE%E9%A2%98/" target="_self">
+        <div>
+          求约数1234567891011121314vector&lt;int&gt; y(int x)&#123;    vector&lt;int&gt;ans;    for(int i=1;i&lt;=x/i;i++)    &#123;        if(x%i==0)//能整除，为一个约数        &#123;            ans.push_back(i);//加入答案
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-12 15:19" pubdate>
+              2022-03-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2022/03/11/C++%E5%BC%95%E7%94%A8%E4%BC%A0%E5%80%BC/" target="_self">
+          引用传值
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/11/C++%E5%BC%95%E7%94%A8%E4%BC%A0%E5%80%BC/" target="_self">
+        <div>
+          同样的cmp函数 123 auto cmp = [&amp;](const vector&lt;int&gt;  a, const vector&lt;int&gt;  b) &#123;    return a[0] == b[0] ? (a[1] &lt; b[1]) : (a[0] &gt; b[0]);&#125;; 使用值传递会直接超时 123 auto cmp = [&amp;](co
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-11 17:10" pubdate>
+              2022-03-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/C/" class="category-chain-item">C++</a>
   
   
 
@@ -836,7 +836,7 @@
   </script>
 
 
-<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>

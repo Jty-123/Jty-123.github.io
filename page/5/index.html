@@ -18,7 +18,7 @@
   
     <meta property="og:type" content="website">
 <meta property="og:title" content="Jty’s Blog">
-<meta property="og:url" content="http://example.com/page/5/index.html">
+<meta property="og:url" content="http://jty-123.github.io/page/5/index.html">
 <meta property="og:site_name" content="Jty’s Blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Jty">
@@ -58,7 +58,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"jty-123.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -71,7 +71,7 @@
 
 
   
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
@@ -102,7 +102,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -114,7 +114,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -126,7 +126,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -138,7 +138,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -150,7 +150,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -222,17 +222,17 @@
     
     
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
+      <h2 class="index-header">
         
-        <a href="/2022/12/30/0-1BFS/" target="_self">
-          0-1BFS
+        <a href="/2022/03/10/%E5%B7%AE%E5%88%86%E7%AE%97%E6%B3%95/" target="_self">
+          查分算法
         </a>
-      </h1>
+      </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/0-1BFS/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/10/%E5%B7%AE%E5%88%86%E7%AE%97%E6%B3%95/" target="_self">
         <div>
-          求单源最短路径，边权有的为0，有的为1。一般的BFS，每个边的边权都为1，保证广度优先搜索正确性的基础在于：对于源点 s 以及任意两个节点 u 和 v，如果dist[u]&lt; dist[v]。那么节点 u 一定会比节点 v 先被取出队列。在常规的广度优先搜索中，我们使用队列作为维护节点的数据结构，就保证了从队列中取出的节点，它们与源点之间的距离是单调递增的。然而如果边权可能为 0，就会出现先将
+          差分可以看做是求前缀和的逆向过程。差分数组的定义为d[i] &#x3D; a[i]-a[i-1];例如现在有一个数组为[1,3,5,4,2]那么它的差分数组为[0,2,2,-1,-2] 差分数组如何做到时间复杂度为O(1)的数组区间修改的。例如，现在想对区间[l,r]的进行加v的操作。那么只需要在差分数组进行操作：d[l]&#x3D;d[l]+v;d[r+1]&#x3D;d[r+1]-v;这样在
         </div>
       </a>
 
@@ -240,8 +240,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 16:24" pubdate>
-              2022-12-30
+            <time datetime="2022-03-10 14:27" pubdate>
+              2022-03-10
             </time>
           </div>
         
@@ -276,17 +276,17 @@
     
     
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
+      <h2 class="index-header">
         
-        <a href="/2022/12/30/hello-world/" target="_self">
-          Hello World
+        <a href="/2022/03/05/%E6%B1%82%E7%BB%84%E5%90%88%E6%95%B0%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95/" target="_self">
+          求组合数的多种方法
         </a>
-      </h1>
+      </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/12/30/hello-world/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/03/05/%E6%B1%82%E7%BB%84%E5%90%88%E6%95%B0%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95/" target="_self">
         <div>
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
+          递推法C[a][b] &#x3D; C[a-1][b-1]+C[a-1][b];很好理解，从一堆苹果中拿出一个苹果，那么从这a个苹果中取出b个苹果可根据有无这个苹果分成两种情况，得到递推式。模板题：https://www.acwing.com/problem/content/887/代码： 12345678910111213const int mod = 1e9+7;int c[N][N];voi
         </div>
       </a>
 
@@ -294,11 +294,194 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-30 15:27" pubdate>
-              2022-12-30
+            <time datetime="2022-03-05 16:06" pubdate>
+              2022-03-05
             </time>
           </div>
         
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2021/04/24/%E7%A6%BB%E6%95%A3%E5%8C%96+%E5%B7%AE%E5%88%86%E7%9A%84%E5%9D%91/" target="_self">
+          离散化+差分的坑
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/04/24/%E7%A6%BB%E6%95%A3%E5%8C%96+%E5%B7%AE%E5%88%86%E7%9A%84%E5%9D%91/" target="_self">
+        <div>
+          4月24日，周赛题T4。https://leetcode-cn.com/problems/number-of-flowers-in-full-bloom/根据题目，想到离散化+差分处理。tle代码： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-24 14:14" pubdate>
+              2021-04-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2020/03/29/DFSBFS/" target="_self">
+          深度优先搜索和广度优先搜索
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/03/29/DFSBFS/" target="_self">
+        <div>
+          深度优先搜索和广度优先搜索。 深度优先搜索以输出排列数为例，主要进行状态的转移。 输出排列数https://www.acwing.com/activity/content/problem/content/905/1234567891011121314151617181920212223242526272829303132#include&lt;bits/stdc++.h&gt;using name
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-29 17:32" pubdate>
+              2020-03-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2020/03/11/sql%E6%B3%A8%E5%85%A5/" target="_self">
+          SQL注入
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2020/03/11/sql%E6%B3%A8%E5%85%A5/" target="_self">
+        <div>
+          常用的注入，有联合注入与堆叠注入。联合注入即为 1’ or 1 union 注入语句#堆叠注入即为 1’ or 1；注入语句#注入中的预编译方法：set是设置一个新列prepare是进行定义一个语句execute是执行playload: 1set @sql = CONCAT(&#x27;se&#x27;,&#x27;lect * from `1919810931114514`;&#x27;);pr
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-11 10:11" pubdate>
+              2020-03-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
         
         
       </div>
@@ -383,7 +566,7 @@
   </script>
 
 
-<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
