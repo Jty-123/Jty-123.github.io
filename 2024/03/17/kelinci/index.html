@@ -1,0 +1,703 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jty">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="kelinci简介kelinci是一个能够在不修改AFL代码的情况下对Java进行模糊测试的工具。 架构&amp;&amp;原理 kelinic主要分为两个大模块，分别为Fuzzer端和 Java端。 Fuzzer端Fuzzer端主要由AFL和一个C文件interface.c组成。 对于AFL来说，AFL只是以为在fuzz interface这个程序，而不是java程序。 AFL在运行过程中会将输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kelinci理解">
+<meta property="og:url" content="http://jty-123.github.io/2024/03/17/kelinci/index.html">
+<meta property="og:site_name" content="Jty’s Blog">
+<meta property="og:description" content="kelinci简介kelinci是一个能够在不修改AFL代码的情况下对Java进行模糊测试的工具。 架构&amp;&amp;原理 kelinic主要分为两个大模块，分别为Fuzzer端和 Java端。 Fuzzer端Fuzzer端主要由AFL和一个C文件interface.c组成。 对于AFL来说，AFL只是以为在fuzz interface这个程序，而不是java程序。 AFL在运行过程中会将输">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.imagehub.cc/images/2024/03/16/852cdbf3bc36c8fac6bf577f15e6471d.png">
+<meta property="article:published_time" content="2024-03-17T07:36:00.000Z">
+<meta property="article:modified_time" content="2024-03-17T07:36:29.989Z">
+<meta property="article:author" content="Jty">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s1.imagehub.cc/images/2024/03/16/852cdbf3bc36c8fac6bf577f15e6471d.png">
+  
+  
+  
+  <title>kelinci理解 - Jty’s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jty-123.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="kelinci理解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-17 15:36" pubdate>
+          2024年3月17日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">kelinci理解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="kelinci"><a href="#kelinci" class="headerlink" title="kelinci"></a>kelinci</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>kelinci是一个能够在不修改AFL代码的情况下对Java进行模糊测试的工具。</p>
+<h4 id="架构-原理"><a href="#架构-原理" class="headerlink" title="架构&amp;&amp;原理"></a>架构&amp;&amp;原理</h4><p><a target="_blank" rel="noopener" href="https://www.imagehub.cc/image/12wqMh"><img src="https://s1.imagehub.cc/images/2024/03/16/852cdbf3bc36c8fac6bf577f15e6471d.png" srcset="/img/loading.gif" lazyload alt="852cdbf3bc36c8fac6bf577f15e6471d.png"></a></p>
+<p>kelinic主要分为两个大模块，分别为Fuzzer端和 Java端。</p>
+<h5 id="Fuzzer端"><a href="#Fuzzer端" class="headerlink" title="Fuzzer端"></a>Fuzzer端</h5><p>Fuzzer端主要由AFL和一个C文件interface.c组成。</p>
+<p>对于AFL来说，AFL只是以为在fuzz interface这个程序，而不是java程序。</p>
+<p>AFL在运行过程中会将输入文件传递给interface，然后interface会将文件传递给java端，java端会将运行结果反馈给fuzz端，从而使AFL进一步fuzz。</p>
+<h5 id="Java端"><a href="#Java端" class="headerlink" title="Java端"></a>Java端</h5><p>Java端的Instrumentor主要有两部分，一个TCP服务器，和真正的要测试的程序。</p>
+<p>待测试程序会先使用Java的ASM库进行插桩。</p>
+<p>TCP服务器负责和Fuzzer端的interface通信。并运行被插桩的目标程序。</p>
+<h4 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h4><h5 id="Mem-java"><a href="#Mem-java" class="headerlink" title="Mem.java"></a>Mem.java</h5><p>kelinci受制于语言，没有像AFL一样直接开辟共享内存区域，而是自己定义了一个Mem静态工具类来当共享内存。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Mem</span> &#123;<br>	<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">SIZE</span> <span class="hljs-operator">=</span> <span class="hljs-number">65536</span>;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">byte</span> mem[] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[SIZE];<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-variable">prev_location</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>	<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * Clears the current measurements.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">clear</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; SIZE; i++)<br>			mem[i] = <span class="hljs-number">0</span>;<br>	&#125;<br>	<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * Prints to stdout any cell that contains a non-zero value.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; SIZE; i++) &#123;<br>			<span class="hljs-keyword">if</span> (mem[i] != <span class="hljs-number">0</span>) &#123;<br>				System.out.println(i + <span class="hljs-string">&quot; -&gt; &quot;</span> + mem[i]);<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="Kelinci-java"><a href="#Kelinci-java" class="headerlink" title="Kelinci.java"></a>Kelinci.java</h5><p>kelinci类中的main函数首先会解析命令行参数，然后加载目标程序的main函数,</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassLoader</span> <span class="hljs-variable">classloader</span> <span class="hljs-operator">=</span> Thread.currentThread().getContextClassLoader();<br>		<span class="hljs-keyword">try</span> &#123;<br>			Class&lt;?&gt; target = classloader.loadClass(mainClass);<br>			targetMain = target.getMethod(<span class="hljs-string">&quot;main&quot;</span>, String[].class);<br>		&#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;<br>			System.err.println(<span class="hljs-string">&quot;Main class not found: &quot;</span> + mainClass);<br>			<span class="hljs-keyword">return</span>;<br>		&#125; <span class="hljs-keyword">catch</span> (NoSuchMethodException e) &#123;<br>			System.err.println(<span class="hljs-string">&quot;No main method found in class: &quot;</span> + mainClass);<br>			<span class="hljs-keyword">return</span>;<br>		&#125; <span class="hljs-keyword">catch</span> (SecurityException e) &#123;<br>			System.err.println(<span class="hljs-string">&quot;Main method in class not accessible: &quot;</span> + mainClass);<br>			<span class="hljs-keyword">return</span>;<br>		&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后会拉起一个服务端线程和fuzz线程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-type">Thread</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Runnable</span>() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        runServer();<br>    &#125;<br>&#125;);<br>server.start();<br><br><span class="hljs-type">Thread</span> <span class="hljs-variable">fuzzerRuns</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Runnable</span>() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        doFuzzerRuns();<br>    &#125;<br>&#125;);<br>fuzzerRuns.start();<br></code></pre></td></tr></table></figure>
+
+<p>服务器线程会先创建一个socket对象,并监听端口的请求。监听到请求后会将请求放入队列中，供fuzz线程使用，若队列已满则返回队列已满的信号。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">try</span> (<span class="hljs-type">ServerSocket</span> <span class="hljs-variable">ss</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerSocket</span>(port)) &#123;<br>		<span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>			<span class="hljs-type">Socket</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> ss.accept();<br>			<span class="hljs-type">boolean</span> <span class="hljs-variable">status</span> <span class="hljs-operator">=</span> <span class="hljs-literal">false</span>;<br>			<span class="hljs-keyword">if</span> (requestQueue.size() &lt; maxQueue) &#123;<br>				status = requestQueue.offer(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FuzzRequest</span>(s));<br>			&#125; <br>			<span class="hljs-keyword">if</span> (!status) &#123;<br>				<span class="hljs-type">OutputStream</span> <span class="hljs-variable">os</span> <span class="hljs-operator">=</span> s.getOutputStream();<br>				os.write(STATUS_QUEUE_FULL);<br>				os.flush();<br>				s.shutdownOutput();<br>				s.shutdownInput();<br>				s.close();<br>			&#125;<br>		&#125;<br>	&#125; <span class="hljs-keyword">catch</span> (BindException be) &#123;<br>		System.err.println(<span class="hljs-string">&quot;Unable to bind to port &quot;</span> + port);<br>		System.exit(<span class="hljs-number">1</span>);<br>	&#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>		System.err.println(<span class="hljs-string">&quot;Exception in request server&quot;</span>);<br>		e.printStackTrace();<br>		System.exit(<span class="hljs-number">1</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>fuzz线程会不断的从请求队列中拉取请求，拉取新的请求后会定义输入输出流，然后将共享内存清0</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>			<span class="hljs-keyword">try</span> &#123;<br>				<span class="hljs-type">FuzzRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> requestQueue.poll();<br>				<span class="hljs-keyword">if</span> (request != <span class="hljs-literal">null</span>) &#123;<br>					<span class="hljs-type">InputStream</span> <span class="hljs-variable">is</span> <span class="hljs-operator">=</span> request.clientSocket.getInputStream();<br>					<span class="hljs-type">OutputStream</span> <span class="hljs-variable">os</span> <span class="hljs-operator">=</span> request.clientSocket.getOutputStream();<br><br>					Mem.clear();<br>					<span class="hljs-type">byte</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> STATUS_CRASH;<br>					<span class="hljs-type">ApplicationCall</span> <span class="hljs-variable">appCall</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br></code></pre></td></tr></table></figure>
+
+<p>以本地模式来举例，首先读取path的长度，然后读取path，根据path定义appCall，期间异常全部按照连接异常来返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (mode == LOCAL_MODE) &#123;						<br>	<span class="hljs-comment">// read the length of the path (integer)</span><br>	<span class="hljs-type">int</span> <span class="hljs-variable">pathlen</span> <span class="hljs-operator">=</span> is.read() | is.read() &lt;&lt; <span class="hljs-number">8</span> | is.read() &lt;&lt; <span class="hljs-number">16</span> | is.read() &lt;&lt; <span class="hljs-number">24</span>;<br>	<span class="hljs-keyword">if</span> (pathlen &lt; <span class="hljs-number">0</span>) &#123;<br>		result = STATUS_COMM_ERROR;<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>	<br>		<span class="hljs-comment">// read the path</span><br>		<span class="hljs-type">byte</span> input[] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[pathlen];<br>		<span class="hljs-type">int</span> <span class="hljs-variable">read</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">while</span> (read &lt; pathlen) &#123;			<br>			<span class="hljs-keyword">if</span> (is.available() &gt; <span class="hljs-number">0</span>) &#123;<br>				input[read++] = (<span class="hljs-type">byte</span>) is.read();<br>			&#125; <span class="hljs-keyword">else</span> &#123;<br>					result = STATUS_COMM_ERROR;<br>					<span class="hljs-keyword">break</span>;<br>				&#125;<br>			&#125;<br>		&#125;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(input);<br>		appCall = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ApplicationCall</span>(path);<br>	&#125;<br>	<br><span class="hljs-comment">/* DEFAULT MODE */</span><br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>处理好输入文件后，执行appCall，并根据执行的状态返回不同的结果，将status和共享内存通过TCP连接，写回Fuzzer端。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (result != STATUS_COMM_ERROR &amp;&amp; appCall != <span class="hljs-literal">null</span>) &#123;<br>	<span class="hljs-comment">// run app with input</span><br>	<span class="hljs-type">ExecutorService</span> <span class="hljs-variable">executor</span> <span class="hljs-operator">=</span> Executors.newSingleThreadExecutor();<br>	Future&lt;Long&gt; future = executor.submit(appCall);<br>	<span class="hljs-keyword">try</span> &#123;<br>		future.get(timeout, TimeUnit.MILLISECONDS);<br>		result = STATUS_SUCCESS;<br>	&#125; <span class="hljs-keyword">catch</span> (TimeoutException te) &#123;<br>		future.cancel(<span class="hljs-literal">true</span>);<br>		result = STATUS_TIMEOUT;<br>	&#125; <span class="hljs-keyword">catch</span> (Throwable e) &#123;<br>		future.cancel(<span class="hljs-literal">true</span>);<br>		<span class="hljs-keyword">if</span> (e.getCause() <span class="hljs-keyword">instanceof</span> RuntimeException) &#123;<br>		&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (e.getCause() <span class="hljs-keyword">instanceof</span> Error) &#123;<br>		&#125;<br>		e.printStackTrace();<br>	&#125;<br>	executor.shutdownNow();<br>&#125;<br><span class="hljs-comment">// send back status</span><br>os.write(result);<br><span class="hljs-comment">// send back &quot;shared memory&quot; over TCP</span><br>os.write(Mem.mem, <span class="hljs-number">0</span>, Mem.mem.length);<br><span class="hljs-comment">// close connection</span><br>os.flush();<br>request.clientSocket.shutdownOutput();<br>request.clientSocket.shutdownInput();<br>request.clientSocket.setSoLinger(<span class="hljs-literal">true</span>, <span class="hljs-number">100000</span>);<br>request.clientSocket.close();<br></code></pre></td></tr></table></figure>
+
+<p>appCall中,会调用runApplication函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ApplicationCall</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Callable</span>&lt;Long&gt; &#123;<br>	<span class="hljs-type">byte</span> input[];<br>	String path;<br><br>	ApplicationCall(<span class="hljs-type">byte</span> input[]) &#123;<br>		<span class="hljs-built_in">this</span>.input = input;<br>	&#125;<br>	<br>	ApplicationCall(String path) &#123;<br>		<span class="hljs-built_in">this</span>.path = path;<br>	&#125;<br><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> Long <span class="hljs-title function_">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>		<span class="hljs-keyword">if</span> (path != <span class="hljs-literal">null</span>)<br>			<span class="hljs-keyword">return</span> runApplication(path);<br>		<span class="hljs-keyword">return</span> runApplication(input);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>runApplicatio函数会执行目标程序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">long</span> <span class="hljs-title function_">runApplication</span><span class="hljs-params">(String filename)</span> &#123;<br>		<span class="hljs-type">long</span> <span class="hljs-variable">runtime</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1L</span>;<br><br>		String[] args = Arrays.copyOf(targetArgs, targetArgs.length);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; args.length; i++) &#123;<br>			<span class="hljs-keyword">if</span> (args[i].equals(<span class="hljs-string">&quot;@@&quot;</span>)) &#123;<br>				args[i] = filename;<br>			&#125;<br>		&#125;<br>		<span class="hljs-type">long</span> <span class="hljs-variable">pre</span> <span class="hljs-operator">=</span> System.nanoTime();<br>		<span class="hljs-keyword">try</span> &#123;<br>			targetMain.invoke(<span class="hljs-literal">null</span>, (Object) args);<br>		&#125; <span class="hljs-keyword">catch</span> (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) &#123;<br>			e.printStackTrace();<br>			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;Error invoking target main method&quot;</span>);<br>		&#125;<br>		runtime = System.nanoTime() - pre;<br>		<span class="hljs-keyword">return</span> runtime;<br>	&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="MethodTransformer-java"><a href="#MethodTransformer-java" class="headerlink" title="MethodTransformer.java"></a>MethodTransformer.java</h5><p>插桩的实现主要在MethodTransformer.java里面，InstrumentLocation里面，仿照AFL的方式进行插桩。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">instrumentLocation</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-type">Integer</span> <span class="hljs-variable">id</span> <span class="hljs-operator">=</span> getNewLocationId();<br>		mv.visitFieldInsn(GETSTATIC, <span class="hljs-string">&quot;edu/cmu/sv/kelinci/Mem&quot;</span>, <span class="hljs-string">&quot;mem&quot;</span>, <span class="hljs-string">&quot;[B&quot;</span>);<br>		mv.visitLdcInsn(id);<br>		mv.visitFieldInsn(GETSTATIC, <span class="hljs-string">&quot;edu/cmu/sv/kelinci/Mem&quot;</span>, <span class="hljs-string">&quot;prev_location&quot;</span>, <span class="hljs-string">&quot;I&quot;</span>);<br>		mv.visitInsn(IXOR);<br>		mv.visitInsn(DUP2);<br>		mv.visitInsn(BALOAD);<br>		mv.visitInsn(ICONST_1);<br>		mv.visitInsn(IADD);<br>		mv.visitInsn(I2B);<br>		mv.visitInsn(BASTORE);<br>		mv.visitIntInsn(SIPUSH, (id &gt;&gt; <span class="hljs-number">1</span>));<br>		mv.visitFieldInsn(PUTSTATIC, <span class="hljs-string">&quot;edu/cmu/sv/kelinci/Mem&quot;</span>, <span class="hljs-string">&quot;prev_location&quot;</span>, <span class="hljs-string">&quot;I&quot;</span>);<br>	&#125;<br></code></pre></td></tr></table></figure>
+
+<p>访问类方法，分支时，均会调用插桩函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">visitCode</span><span class="hljs-params">()</span> &#123;<br>		mv.visitCode();<br>		<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 *  Add instrumentation at start of method.</span><br><span class="hljs-comment">		 */</span><br>		instrumentLocation();<br>	&#125;<br>	<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">visitJumpInsn</span><span class="hljs-params">(<span class="hljs-type">int</span> opcode, Label label)</span> &#123;<br>		mv.visitJumpInsn(opcode, label);<br>		<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 *  Add instrumentation after the jump.</span><br><span class="hljs-comment">		 *  Instrumentation for the if-branch is handled by visitLabel().</span><br><span class="hljs-comment">		 */</span><br>		instrumentLocation();<br>	&#125;<br>	<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">visitLabel</span><span class="hljs-params">(Label label)</span> &#123;<br>		mv.visitLabel(label);<br>		<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * Since there is a label, we most probably (surely?) jump to this location. Instrument.</span><br><span class="hljs-comment">		 */</span><br>		instrumentLocation();<br>	&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="Instrumentor-java"><a href="#Instrumentor-java" class="headerlink" title="Instrumentor.java"></a>Instrumentor.java</h5><p>在Instrumentor.java中，创建ClassTransformer对象，对输入的class进行插桩。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">for</span> (String cls : inputClasses) &#123;<br>			System.out.println(<span class="hljs-string">&quot;Instrumenting class: &quot;</span> + cls);<br>			<span class="hljs-type">InputStream</span> <span class="hljs-variable">bytecode</span> <span class="hljs-operator">=</span> classloader.getResourceAsStream(cls);<br>			<br>			<span class="hljs-type">ClassWriter</span> <span class="hljs-variable">cw</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassWriter</span>(ClassWriter.COMPUTE_FRAMES);<br>			<span class="hljs-type">ClassTransformer</span> <span class="hljs-variable">ct</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassTransformer</span>(cw);<br>			ClassReader cr;<br>			<span class="hljs-keyword">try</span> &#123;<br>				cr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassReader</span>(bytecode);<br>			&#125; <span class="hljs-keyword">catch</span> (IOException | NullPointerException e) &#123;<br>				System.err.println(<span class="hljs-string">&quot;Error loading class: &quot;</span> + cls);<br>				e.printStackTrace();<br>				<span class="hljs-keyword">return</span>;<br>			&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="interface-c"><a href="#interface-c" class="headerlink" title="interface.c"></a>interface.c</h5><p>interface中</p>
+<p>首先会创建属于AFL的共享内存</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span>* shmname = getenv(SHM_ENV_VAR);<br>  <span class="hljs-type">int</span> status = <span class="hljs-number">0</span>;<br>  <span class="hljs-type">uint8_t</span> kelinci_status = STATUS_SUCCESS;<br>  <span class="hljs-keyword">if</span> (shmname) &#123;<br><br>    <span class="hljs-comment">/* Running in AFL */</span><br>    in_afl = <span class="hljs-number">1</span>;<br>	  <br>    <span class="hljs-comment">/* Set up shared memory region */</span><br>    LOG(<span class="hljs-string">&quot;SHM_ID: %s\n&quot;</span>, shmname);<br>    <span class="hljs-type">key_t</span> key = atoi(shmname);<br><br>    <span class="hljs-keyword">if</span> ((trace_bits = shmat(key, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)) == (<span class="hljs-type">uint8_t</span>*) <span class="hljs-number">-1</span>) &#123;<br>      DIE(<span class="hljs-string">&quot;Failed to access shared memory 2\n&quot;</span>);<br>    &#125;<br>    LOGIFVERBOSE(<span class="hljs-string">&quot;Pointer: %p\n&quot;</span>, trace_bits);<br>    LOG(<span class="hljs-string">&quot;Shared memory attached. Value at loc 3 = %d\n&quot;</span>, trace_bits[<span class="hljs-number">3</span>]);<br></code></pre></td></tr></table></figure>
+
+<p>然后会开始fork server</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>) &#123;<br>      <span class="hljs-keyword">if</span>(read(<span class="hljs-number">198</span>, &amp;status, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>) &#123;<br>         DIE(<span class="hljs-string">&quot;Read failed\n&quot;</span>);<br>      &#125;<br><br>      <span class="hljs-type">int</span> child_pid = fork();<br>      <span class="hljs-keyword">if</span> (child_pid &lt; <span class="hljs-number">0</span>) &#123;<br>        DIE(<span class="hljs-string">&quot;Fork failed\n&quot;</span>);<br>      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (child_pid == <span class="hljs-number">0</span>) &#123;<br>        LOGIFVERBOSE(<span class="hljs-string">&quot;Child process, continue after pork server loop\n&quot;</span>);<br>	<span class="hljs-keyword">break</span>;<br>      &#125;<br><br>      LOGIFVERBOSE(<span class="hljs-string">&quot;Child PID: %d\n&quot;</span>, child_pid);<br>      write(<span class="hljs-number">199</span>, &amp;child_pid, <span class="hljs-number">4</span>);<br>      <br>      LOGIFVERBOSE(<span class="hljs-string">&quot;Status %d \n&quot;</span>, status);<br><br>      <span class="hljs-keyword">if</span>(waitpid(child_pid, &amp;status, <span class="hljs-number">0</span>) &lt;= <span class="hljs-number">0</span>) &#123;<br>        DIE(<span class="hljs-string">&quot;Fork crash&quot;</span>);<br>      &#125;<br><br>      LOGIFVERBOSE(<span class="hljs-string">&quot;Status %d \n&quot;</span>, status);<br>      write(<span class="hljs-number">199</span>, &amp;status, <span class="hljs-number">4</span>);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>子进程会不断尝试连接java端端服务器，将文件长度和文件的路径发送到服务器。发送后会等待java端返回的状态和共享内存。并将传递过来的共享内存写入真正的共享内存之中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs c"> <span class="hljs-keyword">do</span> &#123;<br>    <span class="hljs-comment">// if this is not the first try, sleep for 0.1 seconds first</span><br>    <span class="hljs-keyword">if</span>(try &gt; <span class="hljs-number">0</span>)<br>      usleep(<span class="hljs-number">100000</span>);<br><br>    setup_tcp_connection(server, port);<br><br>    <span class="hljs-comment">/* Send mode */</span><br>    write(tcp_socket, &amp;mode, <span class="hljs-number">1</span>);<br><br>    <span class="hljs-comment">/* LOCAL MODE */</span><br>    <span class="hljs-keyword">if</span> (mode == LOCAL_MODE) &#123;<br><br>      <span class="hljs-comment">// get absolute path</span><br>      <span class="hljs-type">char</span> path[<span class="hljs-number">10000</span>];<br>      realpath(filename, path);<br><br>      <span class="hljs-comment">// send path length</span><br>      <span class="hljs-type">int</span> pathlen = <span class="hljs-built_in">strlen</span>(path);<br>      <span class="hljs-keyword">if</span> (write(tcp_socket, &amp;pathlen, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>) &#123;<br>        DIE(<span class="hljs-string">&quot;Error sending path length&quot;</span>);<br>      &#125;<br>      LOG(<span class="hljs-string">&quot;Sent path length: %d\n&quot;</span>, pathlen);<br><br>      <span class="hljs-comment">// send path</span><br>      <span class="hljs-keyword">if</span> (write(tcp_socket, path, pathlen) != pathlen) &#123;<br>        DIE(<span class="hljs-string">&quot;Error sending path&quot;</span>);<br>      &#125;<br>      LOG(<span class="hljs-string">&quot;Sent path: %s\n&quot;</span>, path);<br>      <br>      nread = read(tcp_socket, &amp;kelinci_status, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">if</span> (nread != <span class="hljs-number">1</span>) &#123;<br>      LOG(<span class="hljs-string">&quot;Failure reading exit status over socket.\n&quot;</span>);<br>      kelinci_status = STATUS_COMM_ERROR;<br>      <span class="hljs-keyword">goto</span> cont;<br>    &#125;<br>    LOG(<span class="hljs-string">&quot;Return kelinci_status = %d\n&quot;</span>, status);<br>  <br>    <span class="hljs-comment">/* Read &quot;shared memory&quot; over TCP */</span><br>    <span class="hljs-type">uint8_t</span> *shared_mem = <span class="hljs-built_in">malloc</span>(SHM_SIZE);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> offset = <span class="hljs-number">0</span>; offset &lt; SHM_SIZE; offset += SOCKET_READ_CHUNK) &#123;<br>      nread = read(tcp_socket, shared_mem+offset, SOCKET_READ_CHUNK);<br>      <span class="hljs-keyword">if</span> (nread != SOCKET_READ_CHUNK) &#123;<br>	LOG(<span class="hljs-string">&quot;Error reading from socket\n&quot;</span>);<br>	kelinci_status = STATUS_COMM_ERROR;<br>...<br>  <span class="hljs-comment">/* If successful, copy over to actual shared memory */</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; SHM_SIZE; i++) &#123;<br>      <span class="hljs-keyword">if</span> (shared_mem[i] != <span class="hljs-number">0</span>) &#123;<br>        LOG(<span class="hljs-string">&quot;%d -&gt; %d\n&quot;</span>, i, shared_mem[i]);<br>        trace_bits[i] += shared_mem[i];<br>      &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><p>作者在项目里给了运行实例。</p>
+<p>首先要编译目标程序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">javac src/*.java -d bin<br></code></pre></td></tr></table></figure>
+
+<p>然后对目标程序进行插桩，这里由于java反射安全等原因，只能用jdk8，才能成功运行并进行插桩。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -cp ../../instrumentor/build/libs/kelinci.jar edu.cmu.sv.kelinci.instrumentor.Instrumentor -i bin -o bin-instrumented<br></code></pre></td></tr></table></figure>
+
+<p>然后可以开始启动kelinci的server端</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -cp bin-instrumented edu.cmu.sv.kelinci.Kelinci SimpleBuggy @@<br></code></pre></td></tr></table></figure>
+
+<p>再启动AFL端即可对目标java程序进行fuzz</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">afl-fuzz -i in_dir -o out_dir ../../fuzzerside/interface @@<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/fuzz/" class="category-chain-item">fuzz</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>kelinci理解</div>
+      <div>http://jty-123.github.io/2024/03/17/kelinci/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jty</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/01/2023%E7%A2%8E%E7%A2%8E%E5%BF%B5/" title="2023碎碎念">
+                        <span class="hidden-mobile">2023碎碎念</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
