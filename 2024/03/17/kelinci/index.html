@@ -24,8 +24,10 @@
 <meta property="og:description" content="kelinci简介kelinci是一个能够在不修改AFL代码的情况下对Java进行模糊测试的工具。 架构&amp;&amp;原理 kelinic主要分为两个大模块，分别为Fuzzer端和 Java端。 Fuzzer端Fuzzer端主要由AFL和一个C文件interface.c组成。 对于AFL来说，AFL只是以为在fuzz interface这个程序，而不是java程序。 AFL在运行过程中会将输">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.imagehub.cc/images/2024/03/16/852cdbf3bc36c8fac6bf577f15e6471d.png">
+<meta property="og:image" content="https://s1.imagehub.cc/images/2024/03/21/cd3a9f96112118f9c9ebebe88ae5bac2.png">
+<meta property="og:image" content="https://s1.imagehub.cc/images/2024/03/21/dc96f0165c42a7fc1631b82e25e18391.png">
 <meta property="article:published_time" content="2024-03-17T07:36:00.000Z">
-<meta property="article:modified_time" content="2024-03-17T07:36:29.989Z">
+<meta property="article:modified_time" content="2024-03-23T02:11:11.083Z">
 <meta property="article:author" content="Jty">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://s1.imagehub.cc/images/2024/03/16/852cdbf3bc36c8fac6bf577f15e6471d.png">
@@ -221,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          2.1k 字
         
       </span>
     
@@ -232,7 +234,7 @@
         
         
         
-          15 分钟
+          18 分钟
         
       </span>
     
@@ -331,6 +333,25 @@
 <p>子进程会不断尝试连接java端端服务器，将文件长度和文件的路径发送到服务器。发送后会等待java端返回的状态和共享内存。并将传递过来的共享内存写入真正的共享内存之中。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs c"> <span class="hljs-keyword">do</span> &#123;<br>    <span class="hljs-comment">// if this is not the first try, sleep for 0.1 seconds first</span><br>    <span class="hljs-keyword">if</span>(try &gt; <span class="hljs-number">0</span>)<br>      usleep(<span class="hljs-number">100000</span>);<br><br>    setup_tcp_connection(server, port);<br><br>    <span class="hljs-comment">/* Send mode */</span><br>    write(tcp_socket, &amp;mode, <span class="hljs-number">1</span>);<br><br>    <span class="hljs-comment">/* LOCAL MODE */</span><br>    <span class="hljs-keyword">if</span> (mode == LOCAL_MODE) &#123;<br><br>      <span class="hljs-comment">// get absolute path</span><br>      <span class="hljs-type">char</span> path[<span class="hljs-number">10000</span>];<br>      realpath(filename, path);<br><br>      <span class="hljs-comment">// send path length</span><br>      <span class="hljs-type">int</span> pathlen = <span class="hljs-built_in">strlen</span>(path);<br>      <span class="hljs-keyword">if</span> (write(tcp_socket, &amp;pathlen, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>) &#123;<br>        DIE(<span class="hljs-string">&quot;Error sending path length&quot;</span>);<br>      &#125;<br>      LOG(<span class="hljs-string">&quot;Sent path length: %d\n&quot;</span>, pathlen);<br><br>      <span class="hljs-comment">// send path</span><br>      <span class="hljs-keyword">if</span> (write(tcp_socket, path, pathlen) != pathlen) &#123;<br>        DIE(<span class="hljs-string">&quot;Error sending path&quot;</span>);<br>      &#125;<br>      LOG(<span class="hljs-string">&quot;Sent path: %s\n&quot;</span>, path);<br>      <br>      nread = read(tcp_socket, &amp;kelinci_status, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">if</span> (nread != <span class="hljs-number">1</span>) &#123;<br>      LOG(<span class="hljs-string">&quot;Failure reading exit status over socket.\n&quot;</span>);<br>      kelinci_status = STATUS_COMM_ERROR;<br>      <span class="hljs-keyword">goto</span> cont;<br>    &#125;<br>    LOG(<span class="hljs-string">&quot;Return kelinci_status = %d\n&quot;</span>, status);<br>  <br>    <span class="hljs-comment">/* Read &quot;shared memory&quot; over TCP */</span><br>    <span class="hljs-type">uint8_t</span> *shared_mem = <span class="hljs-built_in">malloc</span>(SHM_SIZE);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> offset = <span class="hljs-number">0</span>; offset &lt; SHM_SIZE; offset += SOCKET_READ_CHUNK) &#123;<br>      nread = read(tcp_socket, shared_mem+offset, SOCKET_READ_CHUNK);<br>      <span class="hljs-keyword">if</span> (nread != SOCKET_READ_CHUNK) &#123;<br>	LOG(<span class="hljs-string">&quot;Error reading from socket\n&quot;</span>);<br>	kelinci_status = STATUS_COMM_ERROR;<br>...<br>  <span class="hljs-comment">/* If successful, copy over to actual shared memory */</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; SHM_SIZE; i++) &#123;<br>      <span class="hljs-keyword">if</span> (shared_mem[i] != <span class="hljs-number">0</span>) &#123;<br>        LOG(<span class="hljs-string">&quot;%d -&gt; %d\n&quot;</span>, i, shared_mem[i]);<br>        trace_bits[i] += shared_mem[i];<br>      &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
 
+<h5 id="3-21补充"><a href="#3-21补充" class="headerlink" title="3.21补充"></a>3.21补充</h5><p>实际上手发现了不一样的地方，一般进行AFL模糊测试时，会用afl-gcc对目标程序进行编译插桩，而kelinci并没有。</p>
+<p>而是用afl-fuzz直接运行，因为在interface.c中，作者利用了afl本身的管道通信和forkserver的机制。</p>
+<p>具体的细节如下面两张图所示</p>
+<p><a target="_blank" rel="noopener" href="https://www.imagehub.cc/image/17pdpj"><img src="https://s1.imagehub.cc/images/2024/03/21/cd3a9f96112118f9c9ebebe88ae5bac2.png" srcset="/img/loading.gif" lazyload alt="cd3a9f96112118f9c9ebebe88ae5bac2.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.imagehub.cc/image/17prbg"><img src="https://s1.imagehub.cc/images/2024/03/21/dc96f0165c42a7fc1631b82e25e18391.png" srcset="/img/loading.gif" lazyload alt="dc96f0165c42a7fc1631b82e25e18391.png"></a></p>
+<p>而在interface.c中，作者没有对interface进行插桩，但根据代码可以理解为作者手动进行了插桩，利用了AFL的forkserver机制。</p>
+<p>首先开启forkserver机制，通过向<code>FORKSRV_FD+1</code>即199这个文件描述符，向状态管道中写入4个字节的值，用来告知afl fuzz，fork server成功启动，等待下一步指示。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C">LOG(<span class="hljs-string">&quot;Starting fork server...\n&quot;</span>);<br><span class="hljs-keyword">if</span> (write(<span class="hljs-number">199</span>, &amp;status, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>) &#123;<br>  LOG(<span class="hljs-string">&quot;Write failed\n&quot;</span>);<br>  <span class="hljs-keyword">goto</span> resume;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>进入<code>__afl_fork_wait_loop</code>循环，从<code>FORKSRV</code>即198中读取字节到<code>_afl_temp</code>，直到读取到4个字节，这代表afl fuzz命令我们新建进程执行一次测试。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">if</span>(read(<span class="hljs-number">198</span>, &amp;status, <span class="hljs-number">4</span>) != <span class="hljs-number">4</span>) &#123;<br>   DIE(<span class="hljs-string">&quot;Read failed\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>fork出子进程，原来的父进程充当fork server来和fuzz进行通信，而子进程则继续执行target。父进程即fork server将子进程的pid写入到状态管道，告知fuzz。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C">LOGIFVERBOSE(<span class="hljs-string">&quot;Child PID: %d\n&quot;</span>, child_pid);<br>      write(<span class="hljs-number">199</span>, &amp;child_pid, <span class="hljs-number">4</span>);<br></code></pre></td></tr></table></figure>
+
+<p>然后父进程即fork server等待子进程结束，并保存其执行结果到<code>_afl_temp</code>中，然后将子进程的执行结果，从<code>_afl_temp</code>写入到状态管道，告知fuzz。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">if</span>(waitpid(child_pid, &amp;status, <span class="hljs-number">0</span>) &lt;= <span class="hljs-number">0</span>) &#123;<br>       DIE(<span class="hljs-string">&quot;Fork crash&quot;</span>);<br>     &#125;<br><br>     LOGIFVERBOSE(<span class="hljs-string">&quot;Status %d \n&quot;</span>, status);<br>     write(<span class="hljs-number">199</span>, &amp;status, <span class="hljs-number">4</span>);<br></code></pre></td></tr></table></figure>
+
+<p>父进程不断轮询<code>__afl_fork_wait_loop</code>循环，不断从控制管道读取，直到fuzz端命令fork server进行新一轮测试。</p>
 <h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><p>作者在项目里给了运行实例。</p>
 <p>首先要编译目标程序</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">javac src/*.java -d bin<br></code></pre></td></tr></table></figure>
